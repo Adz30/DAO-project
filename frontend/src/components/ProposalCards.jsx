@@ -3,7 +3,7 @@ import {
   FilmIcon, 
   ClockIcon, 
   CurrencyDollarIcon,
-  ExternalLinkIcon 
+  ArrowTopRightOnSquareIcon 
 } from "@heroicons/react/24/outline";
 
 const ProposalCards = ({ proposals }) => {
@@ -198,7 +198,7 @@ const ProposalCards = ({ proposals }) => {
                   rel="noopener noreferrer"
                   className="inline-flex items-center text-purple-400 hover:text-purple-300 text-sm font-medium transition-colors"
                 >
-                  <ExternalLinkIcon className="h-4 w-4 mr-1" />
+                  <ArrowTopRightOnSquareIcon className="h-4 w-4 mr-1" />
                   View Full Details
                 </a>
               )}

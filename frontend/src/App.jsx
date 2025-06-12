@@ -8,6 +8,8 @@ import Proposals from "./components/Proposals";
 import Navigation from "./components/Navigation";
 import SaveIdea from "./components/SaveIdea";
 import FundDAOForm from "./components/fundDAOForm";
+import Dashboard from "./components/Dashboard";
+import Hero from "./components/Hero";
 
 function App() {
   const [provider, setProvider] = useState(null);
@@ -16,6 +18,7 @@ function App() {
   const [token, setToken] = useState(null);
   const [proposals, setProposals] = useState([]);
   const [treasuryBalance, setTreasuryBalance] = useState("0");
+  const [userBalance, setUserBalance] = useState("0");
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
@@ -46,6 +49,9 @@ function App() {
 
       const treasuryBalanceRaw = await tokenContract.balanceOf(daoContract.target ?? daoContract.address);
       setTreasuryBalance(formatEther(treasuryBalanceRaw));
+
+      const userBalanceRaw = await tokenContract.balanceOf(checksummed);
+      setUserBalance(formatEther(userBalanceRaw));
 
       const proposalCount = await daoContract.proposalCount();
       const proposalsArr = [];
@@ -92,42 +98,64 @@ function App() {
   };
 
   return (
-    <Router>
-      <Navigation account={account} />
-      {isLoading ? (
-        <p>Loading blockchain data...</p>
-      ) : (
-        <Routes>
-          <Route
-            path="/"
-            element={
-              <>
-                <h3>DAO Treasury Balance: {treasuryBalance} Tokens</h3>
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900">
+      <Router>
+        <Navigation account={account} userBalance={userBalance} />
+        {isLoading ? (
+          <div className="flex items-center justify-center min-h-screen">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-32 w-32 border-b-2 border-purple-500 mx-auto mb-4"></div>
+              <p className="text-white text-xl">Loading blockchain data...</p>
+            </div>
+          </div>
+        ) : (
+          <Routes>
+            <Route
+              path="/"
+              element={
+                <>
+                  <Hero treasuryBalance={treasuryBalance} proposalCount={proposals.length} />
+                  <Dashboard 
+                    proposals={proposals}
+                    treasuryBalance={treasuryBalance}
+                    userBalance={userBalance}
+                  />
+                </>
+              }
+            />
+            <Route
+              path="/proposals"
+              element={
                 <Proposals
                   proposals={proposals}
                   contract={dao}
                   provider={provider}
                   setIsLoading={setIsLoading}
                   onProposalsUpdated={refreshProposals}
+                  tokenAddress={config[31337].Token.address}
+                  tokenAbi={TOKEN_ABI}
                 />
-              </>
-            }
-          />
-          <Route
-            path="/save-idea"
-            element={
-              <>
-                <SaveIdea />
-                <div style={{ marginTop: "1rem", fontWeight: "bold" }}>
-                  DAO Treasury Balance: {treasuryBalance} Tokens
-                </div>
-              </>
-            }
-          />
-          <Route path="/fund-dao" element={<FundDAOForm provider={provider} dao={dao} token={token} />} />
-        </Routes>
-      )}
-    </Router>
+              }
+            />
+            <Route
+              path="/submit-idea"
+              element={<SaveIdea />}
+            />
+            <Route 
+              path="/fund-dao" 
+              element={
+                <FundDAOForm 
+                  provider={provider} 
+                  dao={dao} 
+                  token={token}
+                  onFunded={loadBlockchainData}
+                />
+              } 
+            />
+          </Routes>
+        )}
+      </Router>
+    </div>
   );
 }
 

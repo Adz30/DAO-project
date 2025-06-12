@@ -1,214 +1,112 @@
-/* Bootstrap CSS import */
-@import "bootstrap/dist/css/bootstrap.min.css";
-
 /* Tailwind CSS */
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-/* index.css */
 
-/* Root variables and base styles — LIGHT MODE ONLY */
-:root {
-  --border-radius: 12px;
-
-  font-family: system-ui, Avenir, Helvetica, Arial, sans-serif;
-  line-height: 1.5;
-  font-weight: 400;
-
-  color: #213547;
-  background-color: #ffffff;
-
-  --button-bg: #0070f3;
-  --button-bg-hover: #dde1ff;
-  --primary-color: #646cff;
-  --navbar-bg: #e0e7ff;
-
-  font-synthesis: none;
-  text-rendering: optimizeLegibility;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+/* Custom styles */
+@layer base {
+  * {
+    box-sizing: border-box;
+  }
+  
+  body {
+    margin: 0;
+    font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+      'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+      sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    background: #0f0f23;
+    color: #ffffff;
+  }
 }
 
-/* Smooth color transitions for all elements */
+@layer utilities {
+  .line-clamp-2 {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+  
+  .line-clamp-3 {
+    display: -webkit-box;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(147, 51, 234, 0.5);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(147, 51, 234, 0.7);
+}
+
+/* Smooth transitions */
 * {
-  transition: background-color 0.3s ease, color 0.3s ease;
-  box-sizing: border-box;
+  transition: all 0.2s ease-in-out;
 }
 
-/* Base container and card styles */
-container,
-.card,
-section,
-article {
-  border-radius: var(--border-radius);
-  background-color: #f5f7ff;
-  padding: 1rem;
-  box-shadow: 0 4px 10px rgba(100, 100, 255, 0.1);
-  color: #213547;
-  width: 90%;              /* fluid width */
-  max-width: 700px;        /* limit max width */
-  margin: 2rem auto;
-  text-align: center;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  flex-wrap: wrap;
-}
-
-/* Navbar styles */
-.navbar {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 1rem;
-  margin-bottom: 2rem;
-  background-color: var(--navbar-bg);
-  border-radius: var(--border-radius);
-  box-shadow: 0 2px 8px rgba(100, 100, 255, 0.15);
-  color: #213547;
-}
-
-/* Button styles */
-button {
-  border-radius: var(--border-radius);
-  border: none;
-  padding: 0.8rem 1.5rem;
-  font-size: 1rem;
-  font-weight: 600;
-  font-family: inherit;
-  background-color: var(--button-bg);
-  color: white;
-  cursor: pointer;
-  transition: background-color 0.3s ease, box-shadow 0.3s ease;
-  box-shadow: 0 2px 5px rgba(0, 112, 243, 0.4);
-  user-select: none;
-}
-
-button:hover {
-  background-color: var(--button-bg-hover);
-  border-color: var(--primary-color);
-  box-shadow: 0 4px 14px rgba(100, 108, 255, 0.7);
-}
-
+/* Focus styles */
 button:focus,
-button:focus-visible {
-  outline: 4px auto -webkit-focus-ring-color;
-  box-shadow: 0 0 0 3px var(--primary-color);
-}
-
-/* Responsive helper: button groups centered and spaced */
-.button-group {
-  display: flex;
-  justify-content: center;
-  gap: 1rem;
-  margin-top: 1rem;
-  flex-wrap: wrap;
-}
-
-/* Form styles */
-.form {
-  margin-top: 1rem;
-}
-
-.form-control {
-  margin-bottom: 1rem;
-  display: flex;
-  flex-direction: column;
-}
-
-.form-control label {
-  font-weight: 600;
-  margin-bottom: 0.5rem;
-  color: #213547;
-}
-
-.form-control input,
-.form-select {
-  padding: 0.5rem;
-  border-radius: var(--border-radius);
-  border: 1px solid #ccc;
-  font-size: 1rem;
-  font-family: inherit;
-  transition: border-color 0.3s ease;
-}
-
-.form-control input:focus,
-.form-select:focus {
-  border-color: var(--primary-color);
+input:focus,
+textarea:focus,
+select:focus {
   outline: none;
-  box-shadow: 0 0 5px var(--primary-color);
+  box-shadow: 0 0 0 2px rgba(147, 51, 234, 0.5);
 }
 
-.input-option {
-  margin-bottom: 0.5rem;
-  width: 100%;
+/* Loading animation */
+@keyframes pulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
 }
 
-/* Add Option button */
-.btn-add-option {
-  background-color: var(--button-bg);
-  color: white;
-  border-radius: var(--border-radius);
-  padding: 0.4rem 1rem;
-  border: none;
-  cursor: pointer;
-  font-weight: 600;
-  transition: background-color 0.3s ease;
-  width: max-content;
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
 }
 
-.btn-add-option:hover {
-  background-color: var(--button-bg-hover);
-  color: var(--primary-color);
+/* Gradient text */
+.gradient-text {
+  background: linear-gradient(135deg, #9333ea, #ec4899);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
 }
 
-/* List styles */
-.list {
-  list-style-type: none;
-  padding-left: 0;
-  color: #213547;
+/* Glass morphism effect */
+.glass {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
 }
 
-.list-item {
-  margin-bottom: 0.25rem;
+/* Hover effects */
+.hover-lift:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
 }
 
-/* Card header */
-.card-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-}
-
-/* Delete button */
-.btn-delete {
-  background: transparent;
-  border: none;
-  color: #ff4d4d;
-  font-size: 1.2rem;
-  cursor: pointer;
-  user-select: none;
-  padding: 0;
-  transition: color 0.3s ease;
-}
-
-.btn-delete:hover {
-  color: #ff0000;
-}
-.app-container {
-  max-width: 1000px;      /* max width, can adjust */
-  margin-left: auto;      /* center horizontally */
-  margin-right: auto;
-  padding-left: 16px;     /* responsive padding */
-  padding-right: 16px;
-  min-width: 320px;       /* keep it readable on small screens */
-  font-size: 16px;        /* base font size */
-}
-/* Proposal table wrapper - scroll horizontally if needed */
-.proposals-table-wrapper {
-  width: 100%;
-  max-width: 100vw;
-  overflow-x: auto;
-  padding: 0 12px;
-  box-sizing: border-box;
+/* Card hover effects */
+.card-hover:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 20px 40px rgba(147, 51, 234, 0.2);
 }
